@@ -19,7 +19,12 @@ class _SelecaoPerfilScreenState extends State<SelecaoPerfilScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Selecione um Usuário')),
+      appBar: AppBar(
+        title: const Text('Selecione um Usuário', style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color(0xFF6C63FF),
+        iconTheme: const IconThemeData(color: Colors.white),
+        elevation: 2,
+      ),
       body: FutureBuilder<List<Perfil>>(
         future: _carregarPerfis(),
         builder: (context, snapshot) {
@@ -28,28 +33,48 @@ class _SelecaoPerfilScreenState extends State<SelecaoPerfilScreen> {
           }
           final perfis = snapshot.data!;
           if (perfis.isEmpty) {
-            return const Center(child: Text('Nenhum usuário cadastrado.'));
+            return const Center(
+              child: Text(
+                'Nenhum usuário cadastrado.',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            );
           }
           return ListView.builder(
+            padding: const EdgeInsets.all(16),
             itemCount: perfis.length,
             itemBuilder: (context, index) {
               final perfil = perfis[index];
-              return ListTile(
-                title: Text(perfil.nome),
-                subtitle: Text('Altura: ${perfil.altura} m'),
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/home',
-                    arguments: perfil,
-                  );
-                },
+              return Card(
+                elevation: 3,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: const Color(0xFF6C63FF),
+                    child: const Icon(Icons.person, color: Colors.white),
+                  ),
+                  title: Text(
+                    perfil.nome,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  subtitle: Text('Altura: ${perfil.altura} m'),
+                  trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF6C63FF)),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/home',
+                      arguments: perfil,
+                    );
+                  },
+                ),
               );
             },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF6C63FF),
         onPressed: () async {
           await Navigator.push(
             context,
@@ -57,7 +82,7 @@ class _SelecaoPerfilScreenState extends State<SelecaoPerfilScreen> {
           );
           setState(() {}); // Atualiza a lista após cadastrar novo usuário
         },
-        child: const Icon(Icons.person_add),
+        child: const Icon(Icons.person_add, color: Colors.white),
         tooltip: 'Novo Usuário',
       ),
     );

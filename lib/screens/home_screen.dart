@@ -22,8 +22,11 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        title: const Text('Perfil e Histórico'),
+        backgroundColor: const Color(0xFF1976D2),
+        title: const Text('Perfil e Histórico', style: TextStyle(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_sweep),
@@ -93,21 +96,34 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Nome: ${perfil.nome}'),
-            Text('Altura: ${perfil.altura} m'),
-            Text('Sexo: ${perfil.sexo}'),
-            Text(
-              data != null
-                  ? 'Nascimento: ${data.day}/${data.month}/${data.year}'
-                  : 'Nascimento: ${perfil.dataNascimento}',
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Nome: ${perfil.nome}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text('Altura: ${perfil.altura} m', style: const TextStyle(fontSize: 16)),
+                    Text('Sexo: ${perfil.sexo}', style: const TextStyle(fontSize: 16)),
+                    Text(
+                      data != null
+                          ? 'Nascimento: ${data.day}/${data.month}/${data.year}'
+                          : 'Nascimento: ${perfil.dataNascimento}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 12),
+                    Text('Peso atual: ${perfil.pesoAtual} kg', style: const TextStyle(fontSize: 16)),
+                    Text('IMC: ${perfil.imc.toStringAsFixed(2)}', style: const TextStyle(fontSize: 16)),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
-            Text('Peso atual: ${perfil.pesoAtual} kg'),
-            Text('IMC: ${perfil.imc.toStringAsFixed(2)}'),
             const SizedBox(height: 24),
             const Text(
               'Histórico de Pesos:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Color(0xFF1976D2)),
             ),
             const SizedBox(height: 8),
             Expanded(
@@ -125,10 +141,13 @@ class HomeScreen extends StatelessWidget {
                     itemCount: pesos.length,
                     itemBuilder: (context, index) {
                       final peso = pesos[index];
-                      return ListTile(
-                        leading: const Icon(Icons.monitor_weight),
-                        title: Text('${peso.valor} kg'),
-                        subtitle: Text('Data: ${peso.data}'),
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        child: ListTile(
+                          leading: const Icon(Icons.monitor_weight, color: Color(0xFF1976D2)),
+                          title: Text('${peso.valor} kg', style: const TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text('Data: ${peso.data}'),
+                        ),
                       );
                     },
                   );
@@ -139,6 +158,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFF1976D2),
         onPressed: () {
           if (perfil.id != null) {
             Navigator.push(
@@ -153,7 +173,7 @@ class HomeScreen extends StatelessWidget {
             );
           }
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
         tooltip: 'Registrar novo peso',
       ),
     );
